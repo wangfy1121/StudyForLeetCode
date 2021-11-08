@@ -1,0 +1,83 @@
+/*  问题：
+    给定一个整数数组 nums 和一个整数目标值 target，
+    请你在该数组中找出 和为目标值 target  的那 两个 整数
+    并返回它们的数组下标。
+*/
+
+//第一次尝试失败
+public class twoSum1_try1 {
+    public static void main(String[] args) {
+        //2.在主方法中试运行
+        Scanner scanner = new Scanner(System.in);
+        Soultion obj = new Soultion();
+        int nums[] = new int[4];                    // ！如何给不定长数组赋值？
+        int target;
+
+        //1.输入数组元素  for循环
+        System.out.println("请输入数组元素：");
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = scanner.nextInt();
+        }
+
+        System.out.println("请输入两数之和：");
+        target = scanner.nextInt();
+
+        obj.twoSum(nums,target);
+    }
+}
+
+class Soultion{
+    public int[] twoSum(int[] nums, int target) {
+
+
+        //2.输入两数之和target(在主方法中输入而不是在方法体内)
+//        System.out.println("请输入您要求的和数：");
+//        target = scanner.nextInt();
+
+        /*//声明一个二维数组存储结果
+        int[][] result = new int[3][4];
+        //如果想声明一个二维数组但是不知道长度，可以使用循环来定义，此处暂设为[3][4]*/
+
+        //声明一个一维数组存储结果
+        int result[] = new int[10];
+
+        //3.在数组中遍历和为target的两数   嵌套for循环
+        for (int j = 0; j < nums.length; j++) {
+            for (int k = 0; k < nums.length; k++) {
+                if(target == nums[j] + nums[k]){
+                    int count = 0;
+                    result[count] = j;
+                    result[count++] = k;
+                    count++;
+
+                }
+
+            }
+        }
+        return result;
+    }
+}
+
+//第二次尝试成功
+public class twoSum1_try2 {
+    public static void main(String[] args) {
+        int target = 26;
+        int[] nums = {2,7,11,15};
+        Solution obj = new Solution();
+        System.out.println(Arrays.toString(obj.twoSum(nums,target)));
+    }
+}
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+
+        for (int i = 0; i < nums.length -1 ; i++) {
+            for (int j = i+1; j < nums.length; j++) {
+                if(target == nums[i] + nums[j]){
+                    return new int[]{i,j};
+                }
+            }
+        }
+        throw new IllegalArgumentException("没有匹配值！");
+    }
+}
