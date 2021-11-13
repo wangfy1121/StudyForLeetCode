@@ -1,0 +1,70 @@
+/**
+ * @authorNewRomantics
+ * @data2021/11/13 16:15
+ *
+ *  给你一个有序数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。
+ *  不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
+ *
+ *  举例： 输入：nums = [1,1,2]
+ *       输出：2, nums = [1,2]
+ *       解释：函数应该返回新的长度 2 ，并且原数组 nums 的前两个元素被修改为 1, 2 。不需要考虑数组中超出新长度后面的元素。
+ */
+public class Arrays2 {
+    public static void main(String[] args) {
+        int[] a = {1,1,2};
+        Solution solution = new Solution();
+
+        /*//第一次自己尝试失败
+        System.out.println("返回数组新长度：" + solution.removeDuplicates(a));*/
+        System.out.println(solution.removeDuplicates(a));
+    }
+}
+
+
+class Solution{
+    //第二次尝试，双指针解法
+    public int removeDuplicates(int[] nums) {
+        
+        int len = nums.length;
+        int fast = 1,low = 1;
+
+        if(len == 0){
+            return 0; //数组元素为0
+        }
+
+        while(fast < len){
+            if(nums[fast] != nums[fast-1]){
+                nums[low] = nums[fast];
+                low++;
+            }
+            fast++;
+        }
+        return low;
+    }
+
+
+    /*//第一次自己尝试,成功，但是使用了ArraysList数组
+    public int removeDuplicates(int[] nums){
+        int len = nums.length;
+        int count = 0;//记录重复元素的个数
+        ArrayList<Integer> arrayList = new ArrayList<>();
+
+        for (int i = 0; i < len; i++) {
+            for (int j = 1; j < len && nums[j] != 00000; j++) {
+                if(nums[i] == nums[j]){
+                    nums[j] = 00000;//重复的元素标记起来
+                    count++;
+                }
+            }
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] != 00000){
+                arrayList.add(nums[i]);
+            }
+        }
+
+        System.out.println(arrayList);
+        return arrayList.size();
+    }*/
+}
