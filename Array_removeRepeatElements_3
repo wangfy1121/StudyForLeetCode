@@ -1,0 +1,109 @@
+有个疑惑，为什么力扣上面的题目，官方回答放在IDE中运行无法实现全部功能，但是评论下面都没有人质疑和尝试运行一下
+我还找了评论下面的码友的代码，实际上都不能完全实现功能，包括我自己的代码思想和官方答案一样（利用指针思想遍历数组并重新赋值）
+已达到不新增数组空间的条件下解决，实际运行时最后一个元素总会输出两次[1, 2, 4, 5, 6, 7, 7]，官方和码友的代码也是这个问题
+
+于是我第四次尝试不限制于题目条件解题，其中使用到集合Arrays<Integer>来存储数组Nums[]中不等于val的数据元素，高效又便捷
+也完成了功能要求[1, 2, 4, 5, 6, 7] 。
+
+我想实际工作中应该会直接使用最为便捷和高效的方式，不过既然是刷题，也就有其价值和意义，就像不用集合我想破头都没想出实现功能
+的解决办法，利用集合我5分钟就写出来了，但是我现在需要的就是想破头的这个过程，这个过程的价值会在日后体现。
+
+
+import java.util.*;
+
+/**
+ * @authorNewRomantics
+ * @data2021/11/16 19:27
+ *
+     * 【题目】
+     * 给你一个数组 nums和一个值 val，你需要 原地 移除所有数值等于val的元素，并返回移除后数组的新长度。
+     * 不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+     * 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+     * 
+     * 输入：nums = [3,2,2,3], val = 3
+     * 输出：2, nums = [2,2]
+     * 解释：函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。
+     * 你不需要考虑数组中超出新长度后面的元素。例如，函数返回的新长度为 2 ，
+     * 而 nums = [2,2,3,3] 或 nums = [2,2,0,0]，也会被视作正确答案。
+ */
+public class Arrays3 {
+    public static void main(String[] args) {
+        Solution3 s = new Solution3();
+        int[] nums = {1, 2, 3, 4, 5, 6, 7};
+        System.out.println(s.removeElement_X(nums, 3));
+    }
+}
+
+class Solution3 {
+
+    //④不受题目条件限制，单纯实现功能
+    //使用了集合ArraysList
+    public static int removeElement_X(int[] nums, int val) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int m : nums) {
+            if (m != val) {
+                list.add(m);
+            }
+        }
+        System.out.println(list);
+        return list.size();
+    }
+
+    //①
+    //自己想的方法，实际上是没有实现功能的，结果为[1, 2, 4, 5, 6, 7, 7]
+    //但是力扣上编译通过了，就没有人会去实际运行一下嘛？？？？？？？
+    public int removeElement(int[] nums, int val) {
+        //双指针求法
+        int fast = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[fast] = nums[i];
+                fast++;
+            }
+        }
+        System.out.println(Arrays.toString(nums));
+        return fast;
+    }
+
+
+    //②官方的两种方法AB都不能实现。。。无语
+    public int removeElementA(int[] nums, int val) {
+        int n = nums.length;
+        int left = 0;
+        for (int right = 0; right < n; right++) {
+            if (nums[right] != val) {
+                nums[left] = nums[right];
+                left++;
+            }
+        }
+        return left;
+    }
+
+    public int removeElementB(int[] nums, int val) {
+        int left = 0;
+        int right = nums.length;
+        while (left < right) {
+            if (nums[left] == val) {
+                nums[left] = nums[right - 1];
+                right--;
+            } else {
+                left++;
+            }
+        }
+        System.out.println(Arrays.toString(nums));
+        return left;
+    }
+
+    //③码友的实现了去掉val，但是最后一个元素会重复输出
+    public int removeElementC(int[] nums, int val) {
+        int index = 0;
+        for (int num : nums) {
+            if (num != val) {
+                nums[index++] = num;
+            }
+        }
+        System.out.println(Arrays.toString(nums));
+        return index;
+    }
+
+}
