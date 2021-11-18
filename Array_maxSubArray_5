@@ -1,0 +1,68 @@
+动态规划的解题思路还是没有掌握
+
+
+package LeetCodeTest.Arrays;
+
+/**
+ * @authorNewRomantics
+ * @data2021/11/17 20:01
+ *
+ * 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+ *  输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
+ *  输出：6
+ *  解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。
+ *
+ */
+public class Array5 {
+    public static void main(String[] args) {
+        Solution5 s = new Solution5();
+        int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
+        int result = s.maxSubArray2(nums);
+        System.out.println(result);
+    }
+}
+
+class Solution5 {
+
+    //官方答案：动态规划的思想
+    public int maxSubArray2(int[] nums){
+
+        int pre = 0;
+        int maxNum = nums[0];
+
+        for (int x : nums) {
+            pre = Math.max( x , x + pre );
+            maxNum = Math.max(maxNum,pre);
+        }
+
+        return maxNum;
+    }
+
+
+    //第一次尝试失败
+    public int maxSubArray(int[] nums) {
+
+        int sum = 0;
+        int[] sums = null;
+
+        for (int end = 0,top = 1; top < nums.length;) {
+            sum += nums[end] + nums[top];
+            sums = new int[]{sum};
+            if(sum > nums[end] && sum > nums[top]){
+                top++;
+            }else {
+                end++;
+            }
+        }
+
+        for (int i = 0; i < sums.length - 1; i++) {
+            if(sums[i] > sums[i+1]){
+                int temp = sums[i+1];
+                sums[i+1] = sums[i];
+                sums[i] = temp;
+            }
+        }
+
+        return sums[sums.length-1];
+    }
+}
